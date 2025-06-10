@@ -31,12 +31,15 @@ public class ProductServices {
     }
 
     private ProductEntity toEntity(Product product) {
-        ProductEntity entity = new ProductEntity();
-        entity.setId(product.getId());
-        entity.setName(product.getName());
-        entity.setPrice(product.getPrice());
-        entity.setStock(product.getStock());
-        return entity;
+
+        return new ProductEntity(
+                product.getId(),
+                product.getName(),
+                product.getPrice(),
+                product.getStock(),
+                product.getCategory(),
+                product.getWarranty(),
+                product.getDescription());
     }
 
     private Product toDomain(ProductEntity productEntity) {
@@ -44,7 +47,10 @@ public class ProductServices {
                 productEntity.getId(),
                 productEntity.getName(),
                 productEntity.getPrice(),
-                productEntity.getStock());
+                productEntity.getStock(),
+                productEntity.getCategory(),
+                productEntity.getWarranty(),
+                productEntity.getDescription());
     }
 
 }

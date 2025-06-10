@@ -28,6 +28,10 @@ public abstract class Either<L, R> {
         return isRight() ? mapper.apply(getRight()) : left(getLeft());
     }
 
+    public <T> Either<T, R> mapLeft(Function<L, T> mapper) {
+        return isRight() ? right(getRight()) : left(mapper.apply(getLeft()));
+    }
+
     /**
      * Permite ejecutar efectos colaterales cuando es Right, sin alterar el flujo
      */
@@ -64,6 +68,14 @@ public abstract class Either<L, R> {
         if (isRight())
             return getRight();
         throw exceptionMapper.apply(getLeft());
+    }
+
+    public <E extends RuntimeException> R foldThrowing(Function<L, E> exceptionMapper) throws E {
+        if (isRight()) {
+            return getRight();
+        } else {
+            throw exceptionMapper.apply(getLeft());
+        }
     }
 
     private static class Right<L, R> extends Either<L, R> {
@@ -105,4 +117,5 @@ public abstract class Either<L, R> {
             throw new NoSuchElementException();
         }
     }
+
 }
